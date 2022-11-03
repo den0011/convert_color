@@ -1,4 +1,4 @@
-# color-converter
+# Color-converter
 convert RGB to HSV to HEX to CMYK to HSL
 
 # Preview
