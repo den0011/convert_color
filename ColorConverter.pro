@@ -8,6 +8,7 @@ TEMPLATE = app
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
+win32:RC_ICONS += icon1.ico
 
 CONFIG += c++11
 

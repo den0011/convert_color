@@ -52,15 +52,22 @@ struct color_cmyk
         c(_c), m(_m), y(_y), k(_k) {}
 };
 
+//RGB
+//R: Red
+//G: Green
+//B: Blue
 
-struct max_min
+struct color_rgb
 {
-    int max;
-    int min;
+  unsigned char r;
+  unsigned char g;
+  unsigned char b;
 
-    max_min(int _max = 0, int _min = 0):
-        max(_max), min(_min) {}
+
+  color_rgb(unsigned char _r = 0, unsigned char _g = 0, unsigned char _b = 0):
+      r(_r), g(_g), b(_b) {}
 };
+
 
 
 
