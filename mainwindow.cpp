@@ -22,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QRegExp rx("(?:[0-9a-fA-F]{6},)*[0-9a-fA-F]{0,6}");
     hhValidator = new QRegExpValidator(rx, this);
     ui->lineEditHex->setValidator(hhValidator);
+
+    colorDialog = new QColorDialog(this);
 }
 
 
@@ -120,29 +122,29 @@ void MainWindow::slotCalculateHSL()
 
 void MainWindow::slotCalculateCMYK()
 {
-   double c = ui->cmykC->value();
-   double m = ui->cmykM->value();
-   double y = ui->cmykY->value();
-   double k = ui->cmykK->value();
+    double c = ui->cmykC->value();
+    double m = ui->cmykM->value();
+    double y = ui->cmykY->value();
+    double k = ui->cmykK->value();
 
-   color_rgb rgb = CmykToRgb (c, m, y, k);
-   setColorRgb(rgb);
-
-
-   QString hex = RgbToHex(rgb.r, rgb.g, rgb.b);
-   setColorHex(hex);
-
-   color_hsv hsv = RgbToHsv(rgb.r, rgb.g, rgb.b);
-   setColorHSV(hsv);
-
-   color_hsl hsl = RgbToHsl( rgb.r, rgb.g, rgb.b );
-   setColorHSL(hsl);
-
-   color_cmyk cmyk = RgbToCmyk(rgb.r, rgb.g, rgb.b);
-   setColorCMYK(cmyk);
+    color_rgb rgb = CmykToRgb (c, m, y, k);
+    setColorRgb(rgb);
 
 
-   setColorPreview();
+    QString hex = RgbToHex(rgb.r, rgb.g, rgb.b);
+    setColorHex(hex);
+
+    color_hsv hsv = RgbToHsv(rgb.r, rgb.g, rgb.b);
+    setColorHSV(hsv);
+
+    color_hsl hsl = RgbToHsl( rgb.r, rgb.g, rgb.b );
+    setColorHSL(hsl);
+
+    color_cmyk cmyk = RgbToCmyk(rgb.r, rgb.g, rgb.b);
+    setColorCMYK(cmyk);
+
+
+    setColorPreview();
 
 }
 
@@ -226,20 +228,23 @@ void MainWindow::setColorPreview()
 
 void MainWindow::slotSelect()
 {
-    colorDialog = new QColorDialog(this);
 
     colorDialog->setCurrentColor(QColor(ui->rgbR->value(),ui->rgbG->value(),ui->rgbB->value()));
+    colorDialog->setWindowTitle("Выбрать цвет");
     colorDialog->exec();
     QColor color = colorDialog->selectedColor();
-    ui->rgbR->setValue(color.red());
-    ui->rgbG->setValue(color.green());
-    ui->rgbB->setValue(color.blue());
 
-    QPalette Pal(palette());
-    Pal.setColor(QPalette::Button, QColor(color.red(),color.green(),color.blue()));
-    ui->pBColorSet->setAutoFillBackground(true);
-    ui->pBColorSet->setPalette(Pal);
-    update();
+    if (color.isValid()) {
+        ui->rgbR->setValue(color.red());
+        ui->rgbG->setValue(color.green());
+        ui->rgbB->setValue(color.blue());
+
+        QPalette Pal(palette());
+        Pal.setColor(QPalette::Button, QColor(color.red(),color.green(),color.blue()));
+        ui->pBColorSet->setAutoFillBackground(true);
+        ui->pBColorSet->setPalette(Pal);
+        update();
+    }
 }
 
 
